@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Shouldly;
-using Xunit;
-
-namespace AdventOfCode
+﻿namespace AdventOfCode.Day02
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using Shouldly;
+    using Xunit;
+
     /*
      * As you walk through the door, a glowing humanoid shape yells in your direction. "You there! Your state appears to be idle. 
      * Come help us repair the corruption in this spreadsheet - if we take another millisecond, we'll have to display an hourglass cursor!"
@@ -67,14 +65,12 @@ namespace AdventOfCode
         }
 
         [Fact]
-        public void Main()
+        public void MainBit()
         {
             string[] input = File.ReadAllLines("./day2input.txt");
 
             var result = Calculate(input);
             result.ShouldBe(250);
         }
-
-
     }
 }

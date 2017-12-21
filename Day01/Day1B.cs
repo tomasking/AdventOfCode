@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
-using Shouldly;
-using Xunit;
-
-namespace AdventOfCode
+﻿namespace AdventOfCode.Day01
 {
+    using System.Linq;
+    using Shouldly;
+    using Xunit;
+
     public class Day1B
     {
         public const string finalInput =

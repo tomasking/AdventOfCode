@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Shouldly;
-using Xunit;
-using Xunit.Abstractions;
-
-namespace AdventOfCode
+﻿namespace AdventOfCode.Day17
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using Shouldly;
+    using Xunit;
+    using Xunit.Abstractions;
+
     /*
      This spinlock's algorithm is simple but efficient, quickly consuming everything in its path. It starts with a circular buffer containing only the value 0, 
 which it marks as the current position. It then steps forward through the circular buffer some number of steps (your puzzle input) before inserting the 
@@ -74,7 +70,7 @@ What is the value after 2017 in your completed circular buffer?
         {
             if (turnNumber % 500000 == 0)
             {
-                output.WriteLine(turnNumber.ToString() + " " + _stopwatch.Elapsed.TotalSeconds.ToString());
+                Output(turnNumber.ToString() + " " + _stopwatch.Elapsed.TotalSeconds.ToString());
                 _stopwatch.Reset();
                 _stopwatch.Start();
             }
@@ -94,8 +90,8 @@ What is the value after 2017 in your completed circular buffer?
             return currentRow;
         }
 
-        [Fact]
-        public void Main()
+        [Fact(Skip = "Run explicitly as takes ages")]
+        public void MainBit()
         {
             /* List<List<int>> expectedResult = new List<List<int>>()
              {
@@ -137,9 +133,21 @@ What is the value after 2017 in your completed circular buffer?
                 }
             }
 
-            output.WriteLine("Final Result: " + finalResult.ToString());
+            Output("Final Result: " + finalResult.ToString());
 
             return finalResult;
+        }
+
+        private void Output(string message)
+        {
+            if (output == null)
+            {
+                Console.WriteLine(message);
+            }
+            else
+            {
+                output.WriteLine(message);
+            }
         }
     }
 }

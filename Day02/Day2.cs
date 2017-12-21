@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Shouldly;
-using Xunit;
-
-namespace AdventOfCode
+﻿namespace AdventOfCode.Day02
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using Shouldly;
+    using Xunit;
+
     /*
      * As you walk through the door, a glowing humanoid shape yells in your direction. "You there! Your state appears to be idle. 
      * Come help us repair the corruption in this spreadsheet - if we take another millisecond, we'll have to display an hourglass cursor!"
@@ -28,7 +26,7 @@ namespace AdventOfCode
 
         What is the checksum for the spreadsheet in your puzzle input?
      */
-    public class Day2b
+    public class Day2
     {
         public int Calculate(string[] input)
         {
@@ -44,35 +42,27 @@ namespace AdventOfCode
         private int Difference(string line)
         {
             List<int> numbers = line.Split(new []{' ', '\t'}, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
-
-            for (int i = 0; i < numbers.Count-1; i++)
-            {
-                for (int j = i+1; j < numbers.Count; j++)
-                {
-                    if (numbers[i] % numbers[j] == 0) return numbers[i] / numbers[j];
-                    if (numbers[j] % numbers[i] == 0) return numbers[j] / numbers[i];
-                }
-            }
-
-            throw new Exception();
+            var max = numbers.Max();
+            var min = numbers.Min();
+            return max - min;
         }
 
         [Fact]
         public void FirstOne()
         {
-            string[] input = new[] {"5 9 2 8","9 4 7 3","3 8 6 5"};
+            string[] input = new[] {"5 1 9 5", "7 5 3", "2 4 6 8"};
 
             var result = Calculate(input);
-            result.ShouldBe(9);
+            result.ShouldBe(18);
         }
 
         [Fact]
-        public void Main()
+        public void MainBit()
         {
             string[] input = File.ReadAllLines("./day2input.txt");
 
             var result = Calculate(input);
-            result.ShouldBe(250);
+            result.ShouldBe(47136);
         }
 
 

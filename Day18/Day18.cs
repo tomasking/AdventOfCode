@@ -1,8 +1,5 @@
- using System;
-
-namespace AdventOfCode.Core
+ namespace AdventOfCode.Day18
 {
- 
     public class Day18
     {
         public int DoSomething(){
