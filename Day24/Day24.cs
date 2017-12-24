@@ -1,9 +1,109 @@
- namespace AdventOfCode.Day24
+ using System;
+ using System.Collections.Generic;
+ using System.Linq;
+ using Xunit.Abstractions;
+
+namespace AdventOfCode.Day24
 {
     public class Day24
     {
-        public int DoSomething(){
-            return 3;
+        public Bridges GetBridges(List<Component> components)
+        {
+            Bridges bridges = new Bridges();
+            bridges.AddInitial(components);
+
+            bridges.Iterate();
+            
+            return bridges;
+        }
+    }
+
+    public class Bridges
+    {
+        public List<Bridge> AllBridges = new List<Bridge>();
+
+        public void AddInitial(List<Component> components)
+        {
+            var zeroComponents = components.Where(c => c.Ports.Contains(0));
+            foreach (var zeroComponent in zeroComponents)
+            {
+                AllBridges.Add(new Bridge(0, zeroComponent, components));
+            }
+        }
+
+        public void Iterate()
+        {
+            foreach (var bridge in AllBridges)
+            {
+                bridge.Iterate();
+            }
+        }
+    }
+
+
+    public class Bridge
+    {
+        public List<Component> Components { get; }
+
+        public List<Component> ComponentsLeft { get; }
+
+        private int sparePin = 0;
+
+        public Bridge(int portToMatch, Component zeroComponent, List<Component> components)
+        {
+            Components = new List<Component>() {zeroComponent};
+            sparePin = zeroComponent.Ports[0]==portToMatch ? zeroComponent.Ports[1] : zeroComponent.Ports[0];
+            ComponentsLeft = new List<Component>();
+            foreach (var component in components)
+            {
+                if (component != zeroComponent)
+                {
+                    ComponentsLeft.Add(component);
+                    
+                }
+            }
+        }
+
+        public bool CanAdd(Component bridgeComponent)
+        {
+            if (bridgeComponent.Ports.Contains(sparePin))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void Add(Component bridgeComponent)
+        {
+            Components.Add(bridgeComponent);
+            ComponentsLeft.Remove(bridgeComponent);
+            sparePin = bridgeComponent.Ports[0] == sparePin ? bridgeComponent.Ports[1] : bridgeComponent.Ports[0];
+        }
+
+        public void Iterate()
+        {
+            foreach (var component in new List<Component>(ComponentsLeft))
+            {
+                if (CanAdd(component))
+                {
+                    Add(component);        
+                }
+            }
+        }
+    }
+
+    public class Component
+    {
+        public List<int> Ports { get; }
+
+        public Component(int pins1, int pins2)
+        {
+            Ports = new List<int>() {pins1,pins2 };
+        }
+
+        public override string ToString()
+        {
+            return Ports[0] + "/" + Ports[1];
         }
     }
 }
