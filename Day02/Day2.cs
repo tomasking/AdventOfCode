@@ -59,7 +59,7 @@
         [Fact]
         public void MainBit()
         {
-            string[] input = File.ReadAllLines("./day2input.txt");
+            string[] input = File.ReadAllLines("./day02/day2input.txt");
 
             var result = Calculate(input);
             result.ShouldBe(47136);

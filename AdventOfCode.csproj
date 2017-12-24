@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <None Update="Day02/day2input.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
