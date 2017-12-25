@@ -13,6 +13,9 @@
 
   <ItemGroup>
     <None Update="Day02/day2input.txt" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Day24\day24.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

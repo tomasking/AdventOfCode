@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Xml.Schema;
 using Xunit.Abstractions;
@@ -29,7 +30,7 @@ namespace AdventOfCode.Day24
             _components.Add(new Component(10, 1));
             _components.Add(new Component(9, 10));
 
-            _day24 = new Day24();
+            _day24 = new Day24(output);
         }
 
         [Fact]
@@ -37,16 +38,79 @@ namespace AdventOfCode.Day24
         {
             var bridges = _day24.GetBridges(_components);
 
-            OutputBridges(bridges.AllBridges);
+            OutputBridges(bridges._bridges);
         }
+
+
+        [Fact]
+        public void FinalTest()
+        {
+            string[] input = File.ReadAllLines("./day24/day24.txt").ToArray();
+            List<Component> components = new List<Component>();
+
+            foreach (var line in input)
+            {
+                var numbers = line.Split('/');
+                components.Add(new Component(int.Parse(numbers[0]), int.Parse(numbers[1])));
+            }
+            
+            var bridges = _day24.GetBridges(components);
+
+           OutputBridges(bridges._bridges);
+        }
+
+        [Fact]
+        public void FinalTestPartB()
+        {
+            string[] input = File.ReadAllLines("./day24/day24.txt").ToArray();
+            List<Component> components = new List<Component>();
+
+            foreach (var line in input)
+            {
+                var numbers = line.Split('/');
+                components.Add(new Component(int.Parse(numbers[0]), int.Parse(numbers[1])));
+            }
+
+            var bridges = _day24.GetBridges(components)._bridges;
+
+            var longestLength = 0;
+            List<Bridge> longestBridges = new List<Bridge>();
+            foreach (var bridge in bridges)
+            {
+                if (bridge.Components.Count > longestLength)
+                {
+                    longestLength = bridge.Components.Count;
+                    longestBridges =new List<Bridge>() {bridge};
+                }else if (bridge.Components.Count == longestLength)
+                {
+                    longestBridges.Add(bridge);
+                }
+
+            }
+            foreach (var longestBridge in longestBridges.OrderByDescending(s=>s.Sum))
+            {
+                var s = string.Join("--", longestBridge.Components) + "  Sum: " + longestBridge.Sum;
+                Output(s);
+
+            }
+        }
+
 
         private void OutputBridges(List<Bridge> bridges)
         {
+            var topSum = 0;
+            Bridge topBridge = null;
             foreach (var bridge in bridges)
             {
-                var s = string.Join("--", bridge.Components);
-                Output(s);
+                if (bridge.Sum > topSum)
+                {
+                    topSum = bridge.Sum;
+                    topBridge = bridge;
+                }    
+                
             }
+            var s = string.Join("--", topBridge.Components) + "  Sum: " + topBridge.Sum;
+            Output(s);
         }
 
         private void Output(string message)
